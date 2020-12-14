@@ -9,6 +9,27 @@ const Receita = require("../model/Receita");
 
 authRouter.use(authMiddleware);
 
+router.post(
+    "/avaliar/:id",
+    asyncHandler(async(req, res) => {
+        const id = req.params.id;
+        const { nota } = req.body;
+        if (nota > 5 || nota < 0)
+            throw { showMsg: "Nota tem que ser entre 0 e 5!" };
+        let receita = await Receita.findById(id);
+        let notaAnt = receita.nota;
+
+        if (notaAnt == null) {
+            notaAnt = nota;
+        }
+        notaAnt = (notaAnt + nota) / 2;
+        receita = await Receita.findByIdAndUpdate(
+            id, { nota: notaAnt }, { new: true }
+        );
+        res.send(receita);
+    })
+);
+
 router.get(
     "/:id",
     asyncHandler(async(req, res) => {

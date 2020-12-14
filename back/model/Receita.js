@@ -29,6 +29,10 @@ const ReceitaSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    nota: {
+        type: Number,
+        default: null,
+    },
 });
 
 const Receita = mongoose.model("Receita", ReceitaSchema);
