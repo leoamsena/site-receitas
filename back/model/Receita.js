@@ -34,6 +34,15 @@ const ReceitaSchema = new mongoose.Schema({
         default: null,
     },
 });
+ReceitaSchema.statics.random = async function(number) {
+    const arr = [];
+    const count = await this.countDocuments({});
 
+    for (let i = 0; i < number; i++) {
+        const rand = Math.floor(Math.random() * count);
+        arr.push(await this.findOne().skip(rand).exec());
+    }
+    return arr;
+};
 const Receita = mongoose.model("Receita", ReceitaSchema);
 module.exports = Receita;

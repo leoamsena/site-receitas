@@ -9,6 +9,15 @@ const Receita = require("../model/Receita");
 
 authRouter.use(authMiddleware);
 
+router.get(
+    "/random/:number",
+    asyncHandler(async(req, res) => {
+        const n = req.params.number;
+        const teste = await Receita.random(n);
+        res.send(teste);
+    })
+);
+
 router.post(
     "/avaliar/:id",
     asyncHandler(async(req, res) => {
