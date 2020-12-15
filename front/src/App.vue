@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <navbar></navbar>
-    <router-view />
+    <router-view></router-view>
+    
+
     <b-modal id="login-modal" title="Login">
       <form ref="form" @submit.prevent>
         <b-form-input

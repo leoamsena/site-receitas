@@ -4,6 +4,15 @@ export const getRandom = async(number = 3) => {
     const { data } = await axios.get("receitas/random/" + number);
     return acertarUrlImagem(data);
 };
+export const getOne = async(id) => {
+    const { data } = await axios.get("receitas/" + id);
+    data.imagem = config.baseApi + data.imagem;
+    return data;
+};
+export const avaliar = async(id, nota) => {
+    await axios.post("receitas/avaliar/" + id, { nota });
+    return true;
+};
 
 function acertarUrlImagem(array) {
     return array.map((item) => {
@@ -12,3 +21,11 @@ function acertarUrlImagem(array) {
         return item;
     });
 }
+export const minhasReceitas = async() => {
+    const { data } = await axios.get("users/receitas");
+    return acertarUrlImagem(data);
+};
+export const apagar = async(id) => {
+    const { data } = await axios.delete("receitas/" + id);
+    return data;
+};

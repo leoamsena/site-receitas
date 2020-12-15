@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Logado from "../views/Logado.vue";
+import Receita from "../views/Receita.vue";
 
 Vue.use(VueRouter);
 
@@ -12,7 +14,12 @@ const routes = [{
     {
         path: "/logado",
         name: "logado",
-        component: Home,
+        component: Logado,
+    },
+    {
+        path: "/receita/:id",
+        name: "receita",
+        component: Receita,
     },
 ];
 
