@@ -1,14 +1,28 @@
 const express = require("express");
+const authRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../model/User");
 const authConfig = require("../config/auth");
+const authMiddleware = require("../middlewares/auth");
+const Receita = require("../model/Receita");
+
+authRouter.use(authMiddleware);
 
 function generateToken(params = {}) {
     return (token = jwt.sign(params, authConfig.secret, { expiresIn: 86400 }));
 }
+
+authRouter.get(
+    "/receitas",
+    asyncHandler(async(req, res) => {
+        const { userId } = req;
+        const receitas = await Receita.find({ user: userId });
+        res.send(receitas);
+    })
+);
 
 router.get(
     "",
@@ -47,4 +61,4 @@ router.post(
     })
 );
 
-module.exports = router;
+module.exports = [router, authRouter];
