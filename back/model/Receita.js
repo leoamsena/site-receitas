@@ -42,7 +42,8 @@ ReceitaSchema.statics.random = async function(number) {
         const rand = Math.floor(Math.random() * count);
         arr.push(await this.findOne().skip(rand).exec());
     }
-    return arr;
+    const filtered = arr.filter((item) => item != null);
+    return filtered;
 };
 const Receita = mongoose.model("Receita", ReceitaSchema);
 module.exports = Receita;
