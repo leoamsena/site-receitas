@@ -1,8 +1,22 @@
 <template>
   <div id="app">
     <navbar></navbar>
+
+    <b-modal
+      hide-header-close
+      hide-header
+      hide-footer
+      no-close-on-esc
+      no-close-on-backdrop
+      ref="loading-modal"
+      id="loading-modal"
+    >
+      <div class="d-block text-center">
+        Carregando!!!<br />
+        <b-icon icon="arrow-clockwise" animation="spin" font-scale="4"></b-icon>
+      </div>
+    </b-modal>
     <router-view></router-view>
-    
 
     <b-modal id="login-modal" title="Login">
       <form ref="form" @submit.prevent>
@@ -43,6 +57,8 @@
 import Navbar from "./components/Navbar";
 import VFooter from "./components/Footer";
 import { login } from "./services/Auth";
+import { mapState } from "vuex";
+
 export default {
   components: { Navbar, VFooter },
   data() {
@@ -53,14 +69,22 @@ export default {
   },
   methods: {
     async makeLoginClick() {
-      try {
-        const res = await login(this.email, this.password);
-        if (res) {
-          this.$router.push({ name: "logado" });
-        }
-      } catch (e) {
-        this.$bvToast.toast("Email e/ou senha incorreto(s)!", {
-          title: "Erro ao logar!",
+      const res = await login(this.email, this.password);
+      if (res) {
+        this.$router.push({ name: "logado" });
+      }
+    },
+  },
+  computed: mapState(["loading", "adminMsg"]),
+  watch: {
+    loading() {
+      this.$refs["loading-modal"].toggle();
+    },
+    adminMsg() {
+      while (this.adminMsg.length > 0) {
+        const msg = this.adminMsg.pop();
+        this.$bvToast.toast(msg, {
+          title: "Algo deu errado!",
           autoHideDelay: 5000,
         });
       }

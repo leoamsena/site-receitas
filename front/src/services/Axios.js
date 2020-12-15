@@ -16,13 +16,7 @@ axiosInstance.interceptors.request.use(function(config) {
 });
 axiosInstance.interceptors.response.use(
     function(response) {
-        if (response.config.method != "get") {
-            store.dispatch("ldFalse");
-            store.dispatch("appendNewMsg", {
-                msg: response.data.message,
-                variant: "success",
-            });
-        }
+        store.dispatch("ldFalse");
         return response;
     },
     function(error) {
@@ -36,7 +30,7 @@ axiosInstance.interceptors.response.use(
             //window.location.href = "/admin";
         } else {
             store.dispatch("appendNewMsg", {
-                msg: error.response.data.message,
+                msg: error.response.data.showMsg,
                 variant: "danger",
             });
         }

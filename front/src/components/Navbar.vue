@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="#">Tudo Delicioso</b-navbar-brand>
+    <b-navbar-brand :to="{ name: 'Home' }">Tudo Delicioso</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -19,7 +19,11 @@
         </b-nav-form>
 
         <b-nav-item right>
-          <b-button variant="light" class="mb-2">
+          <b-button
+            variant="light"
+            class="mb-2"
+            :to="{ name: 'enviarReceita' }"
+          >
             <b-icon icon="list-check" aria-hidden="true"></b-icon>
             Enviar receita
           </b-button>

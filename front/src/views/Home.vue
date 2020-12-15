@@ -3,13 +3,17 @@
     <b-container class="mt-5 mb-5">
       <b-row align-h="between">
         <b-col cols="6" style="max-height: 400px; height: 30em">
-          <card
+          <b-link
             v-for="(receita, key) in destaqueMaior"
-            :img="receita.imagem"
-            :text="receita.titulo"
             :key="key"
-            position="top"
-          ></card>
+            :to="{ name: 'receita', params: { id: receita._id } }"
+          >
+            <card
+              :img="receita.imagem"
+              :text="receita.titulo"
+              position="top"
+            ></card>
+          </b-link>
         </b-col>
         <b-col cols="5">
           <b-row
@@ -17,7 +21,9 @@
           >
             <template v-for="(receita, key) in outrosDestaques">
               <div :key="key" cols="12">
-                <card :img="receita.imagem" :text="receita.titulo"></card>
+                <b-link :to="{ name: 'receita', params: { id: receita._id } }">
+                  <card :img="receita.imagem" :text="receita.titulo"></card>
+                </b-link>
               </div>
             </template>
           </b-row>

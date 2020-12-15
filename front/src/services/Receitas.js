@@ -1,8 +1,13 @@
 import { default as axios } from "./Axios";
 import { default as config } from "../config/index.js";
+
 export const getRandom = async(number = 3) => {
     const { data } = await axios.get("receitas/random/" + number);
     return acertarUrlImagem(data);
+};
+export const submit = async(form) => {
+    const { data } = await axios.post("receitas/", form);
+    return acertarUrlImagem([data])[0];
 };
 export const getOne = async(id) => {
     const { data } = await axios.get("receitas/" + id);
