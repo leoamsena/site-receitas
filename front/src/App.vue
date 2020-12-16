@@ -53,6 +53,7 @@
                 variant="warning"
                 size="sm"
                 @click="registrar = !registrar"
+                id="mudar-registro-login"
               >
                 Mudar para {{ registrar ? "login" : "cadastro" }}
               </b-button>
@@ -63,6 +64,7 @@
                 size="sm"
                 class="float-right"
                 @click="makeLoginClick"
+                id="btn-logar-registrar"
               >
                 {{ registrar ? "Registrar" : "Logar" }}
               </b-button>
@@ -119,7 +121,7 @@ export default {
       while (this.adminMsg.length > 0) {
         const msg = this.adminMsg.pop();
         this.$bvToast.toast(msg, {
-          title: "Algo deu errado!",
+          title: "Informação do servidor",
           autoHideDelay: 5000,
         });
       }

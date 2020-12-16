@@ -7,13 +7,13 @@ localVue.use(BootstrapVue);
 describe("Card.vue", () => {
     it("Renderização de prop titulo", () => {
         const msg = "Titulo teste";
-        const wrapper = shallowMount(Card, {
+        const wrapper = mount(Card, {
             propsData: {
                 text: msg,
                 img: "https://img.itdg.com.br/images/recipes/000/029/124/320646/320646_original.jpg",
             },
             localVue,
         });
-        expect(wrapper.html()).toMatch(msg);
+        expect(wrapper.find(".card-title").text()).toMatch(msg);
     });
 });
