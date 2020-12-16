@@ -5,7 +5,7 @@ module.exports = {
     random: asyncHandler(async(req, res) => {
         const n = req.params.number;
         const teste = await Receita.random(n);
-        res.send(teste);
+        return res.status(200).send(teste);
     }),
     avaliar: asyncHandler(async(req, res) => {
         const id = req.params.id;
@@ -22,16 +22,16 @@ module.exports = {
         receita = await Receita.findByIdAndUpdate(
             id, { nota: notaAnt }, { new: true }
         );
-        res.send(receita);
+        return res.status(200).send(receita);
     }),
     getById: asyncHandler(async(req, res) => {
         const id = req.params.id;
         const receita = await Receita.findOne({ _id: id });
-        res.send(receita);
+        return res.status(200).send(receita);
     }),
     getAll: asyncHandler(async(req, res) => {
         const receitas = await Receita.find();
-        res.send(receitas);
+        return res.status(200).send(receitas);
     }),
     update: asyncHandler(async(req, res) => {
         const { id } = req.params;
@@ -53,7 +53,7 @@ module.exports = {
         let receita = await Receita.findOneAndUpdate({ _id: id }, newObj, {
             new: true,
         });
-        res.send(receita);
+        return res.status(200).send(receita);
     }),
     delete: asyncHandler(async(req, res) => {
         const { id } = req.params;
@@ -63,12 +63,13 @@ module.exports = {
         if (receita.user != req.userId)
             throw { showMsg: "Essa receita não é sua!" };
         await Receita.findOneAndDelete({ _id: id });
-        res.send();
+        return res.status(200).send();
     }),
     create: asyncHandler(async(req, res) => {
         if (req.file === undefined)
             throw { showMsg: "É obrigatório enviar uma foto!" };
         const { path } = req.file;
+
         try {
             const { userId } = req;
             const { titulo, ingredientes, preparo } = req.body;
@@ -79,7 +80,7 @@ module.exports = {
                 user: userId,
                 imagem: path,
             });
-            res.send(receita);
+            return res.status(200).send(receita);
         } catch (e) {
             fs.unlinkSync(path);
             throw e;

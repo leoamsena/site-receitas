@@ -3,10 +3,12 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "nodemon ./bin/www"
+        "start": "nodemon ./bin/www",
+        "teste": "jest --testEnvironment=node --verbose --detectOpenHandles --rootDir ./test"
     },
     "devDependencies": {
         "debug": "~2.6.9",
+        "jest": "^26.6.3",
         "nodemon": "^2.0.6"
     },
     "dependencies": {

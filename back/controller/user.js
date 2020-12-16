@@ -12,7 +12,7 @@ module.exports = {
     getAllReceitas: asyncHandler(async(req, res) => {
         const { userId } = req;
         const receitas = await Receita.find({ user: userId });
-        res.send(receitas);
+        return res.status(200).send(receitas);
     }),
     register: asyncHandler(async(req, res) => {
         const err = { acao: "realizar cadastro" };
@@ -22,7 +22,9 @@ module.exports = {
             throw Object.assign(err, { showMsg: "Usuário já existe!" });
         const user = await User.create(req.body);
         user.password = undefined;
-        return res.send({ user, token: generateToken({ id: user.id }) });
+        return res
+            .status(200)
+            .send({ user, token: generateToken({ id: user.id }) });
     }),
     login: asyncHandler(async(req, res) => {
         const { email, password } = req.body;
@@ -33,6 +35,8 @@ module.exports = {
         if (!(await bcrypt.compare(password, user.password)))
             throw { showMsg: "Senha inválida!", codeHttp: 401 };
         user.password = undefined;
-        res.send({ user, token: generateToken({ id: user.id }) });
+        return res
+            .status(200)
+            .send({ user, token: generateToken({ id: user.id }) });
     }),
 };
