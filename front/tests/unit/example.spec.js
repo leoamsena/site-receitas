@@ -1,12 +1,19 @@
-import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import { shallowMount, createLocalVue, mount } from "@vue/test-utils";
+import Card from "@/components/Card.vue";
+import { BootstrapVue } from "bootstrap-vue";
+const localVue = createLocalVue();
+localVue.use(BootstrapVue);
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    })
-    expect(wrapper.text()).toMatch(msg)
-  })
-})
+describe("Card.vue", () => {
+    it("Renderização de prop titulo", () => {
+        const msg = "Titulo teste";
+        const wrapper = shallowMount(Card, {
+            propsData: {
+                text: msg,
+                img: "https://img.itdg.com.br/images/recipes/000/029/124/320646/320646_original.jpg",
+            },
+            localVue,
+        });
+        expect(wrapper.html()).toMatch(msg);
+    });
+});
