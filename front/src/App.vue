@@ -71,6 +71,7 @@ export default {
     async makeLoginClick() {
       const res = await login(this.email, this.password);
       if (res) {
+        this.$bvModal.hide("login-modal");
         this.$router.push({ name: "logado" });
       }
     },

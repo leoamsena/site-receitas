@@ -22,11 +22,29 @@
             <template v-for="(receita, key) in outrosDestaques">
               <div :key="key" cols="12">
                 <b-link :to="{ name: 'receita', params: { id: receita._id } }">
-                  <card :img="receita.imagem" :text="receita.titulo"></card>
+                  <card
+                    :img="receita.imagem"
+                    :text="receita.titulo"
+                    style="max-height: 200px"
+                  ></card>
                 </b-link>
               </div>
             </template>
           </b-row>
+        </b-col>
+      </b-row>
+      <h2 class="mt-5">Todas as receitas:</h2>
+      <b-row>
+        <b-col>
+          <b-list-group class="text-left">
+            <b-list-group-item
+              v-for="(receita, key) in todasReceitas"
+              :to="{ name: 'receita', params: { id: receita._id } }"
+              :key="key"
+            >
+              {{ receita.titulo }}
+            </b-list-group-item>
+          </b-list-group>
         </b-col>
       </b-row>
     </b-container>
@@ -35,19 +53,20 @@
 
 <script>
 import Card from "../components/Card";
-import { getRandom } from "../services/Receitas";
+import { getRandom, getAll } from "../services/Receitas";
 export default {
   name: "Home",
   data() {
     return {
       receitasIniciais: [],
+      todasReceitas: [],
     };
   },
   components: { Card },
   async mounted() {
-    const data = await getRandom(3);
+    const [data, data2] = await Promise.all([getRandom(3), getAll()]);
     this.receitasIniciais = data;
-    console.log(this.receitasIniciais);
+    this.todasReceitas = data2;
   },
   computed: {
     destaqueMaior() {

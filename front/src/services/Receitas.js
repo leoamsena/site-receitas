@@ -1,6 +1,11 @@
 import { default as axios } from "./Axios";
 import { default as config } from "../config/index.js";
 
+export const update = async(id, form) => {
+    const { data } = await axios.patch("receitas/" + id, form);
+    return acertarUrlImagem([data])[0];
+};
+
 export const getRandom = async(number = 3) => {
     const { data } = await axios.get("receitas/random/" + number);
     return acertarUrlImagem(data);
@@ -33,4 +38,8 @@ export const minhasReceitas = async() => {
 export const apagar = async(id) => {
     const { data } = await axios.delete("receitas/" + id);
     return data;
+};
+export const getAll = async() => {
+    const { data } = await axios.get("receitas");
+    return acertarUrlImagem(data);
 };

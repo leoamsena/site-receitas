@@ -23,6 +23,12 @@ const routes = [{
         component: EnviarReceita,
     },
     {
+        path: "/receita/editar/:id",
+        name: "editarReceita",
+        component: EnviarReceita,
+        props: { editar: true },
+    },
+    {
         path: "/receita/:id",
         name: "receita",
         component: Receita,

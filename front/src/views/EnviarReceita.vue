@@ -1,7 +1,9 @@
 <template>
   <b-container class="mt-4"
     ><b-row
-      ><b-col><h1>Adicionar nova receita</h1></b-col>
+      ><b-col
+        ><h1>{{ editar ? "Editar" : "Adicionar nova" }} receita</h1></b-col
+      >
     </b-row>
     <b-row>
       <b-col
@@ -14,6 +16,7 @@
     <b-row class="border-bottom pb-2">
       <b-col>
         <b-form-file
+          v-if="!editar"
           placeholder="Escolha uma foto ou arraste pra cá..."
           drop-placeholder="Solte a foto aqui..."
           v-model="imagem"
@@ -81,8 +84,12 @@
 </template>
 
 <script>
-import { submit as subRec } from "../services/Receitas";
+import { submit as subRec, getOne, update } from "../services/Receitas";
+
 export default {
+  props: {
+    editar: { default: false },
+  },
   data() {
     return {
       ingredientes: [""],
@@ -106,7 +113,7 @@ export default {
     },
     async submit() {
       let form = new FormData();
-      form.append("imagem", this.imagem);
+      if (!this.editar) form.append("imagem", this.imagem);
       this.ingredientes.forEach((item, key) => {
         form.append(`ingredientes[${key}]`, item);
       });
@@ -115,10 +122,24 @@ export default {
         form.append(`preparo[${key}]`, item);
       });
       form.append("titulo", this.titulo);
-
-      const data = await subRec(form);
+      let data;
+      if (!this.editar) data = await subRec(form);
+      else data = await update(this.id, form);
       this.$router.push({ name: "receita", params: { id: data._id } });
     },
+  },
+  computed: {
+    id() {
+      return this.$route.params.id;
+    },
+  },
+  async mounted() {
+    if (this.editar) {
+      const data = await getOne(this.id);
+      this.ingredientes = data.ingredientes;
+      this.preparo = data.preparo;
+      this.titulo = data.titulo;
+    }
   },
 };
 </script>
