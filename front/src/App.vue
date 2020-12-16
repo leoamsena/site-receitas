@@ -18,8 +18,16 @@
     </b-modal>
     <router-view></router-view>
 
-    <b-modal id="login-modal" title="Login">
+    <b-modal id="login-modal" :title="registrar ? 'Cadastro' : 'Login'">
       <form ref="form" @submit.prevent>
+        <b-form-input
+          id="nome-input"
+          v-model="nome"
+          required
+          placeholder="Nome"
+          class="mb-3"
+          v-if="registrar"
+        ></b-form-input>
         <b-form-input
           id="email-input"
           v-model="email"
@@ -36,17 +44,31 @@
           placeholder="Senha"
         ></b-form-input>
       </form>
+
       <template #modal-footer>
-        <div class="w-100">
-          <b-button
-            variant="primary"
-            size="sm"
-            class="float-right"
-            @click="makeLoginClick"
-          >
-            Logar
-          </b-button>
-        </div>
+        <b-container>
+          <b-row>
+            <b-col>
+              <b-button
+                variant="warning"
+                size="sm"
+                @click="registrar = !registrar"
+              >
+                Mudar para {{ registrar ? "login" : "cadastro" }}
+              </b-button>
+            </b-col>
+            <b-col>
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right"
+                @click="makeLoginClick"
+              >
+                {{ registrar ? "Registrar" : "Logar" }}
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-container>
       </template>
     </b-modal>
     <v-footer></v-footer>
@@ -56,7 +78,7 @@
 <script>
 import Navbar from "./components/Navbar";
 import VFooter from "./components/Footer";
-import { login } from "./services/Auth";
+import { login, register } from "./services/Auth";
 import { mapState } from "vuex";
 
 export default {
@@ -65,14 +87,26 @@ export default {
     return {
       email: "",
       password: "",
+      nome: "",
+      registrar: false,
     };
   },
   methods: {
     async makeLoginClick() {
-      const res = await login(this.email, this.password);
-      if (res) {
-        this.$bvModal.hide("login-modal");
-        this.$router.push({ name: "logado" });
+      if (!this.registrar) {
+        const res = await login(this.email, this.password);
+        if (res) {
+          this.$bvModal.hide("login-modal");
+          this.$router.push({ name: "logado" });
+        }
+      } else {
+        const res = await register(this.nome, this.email, this.password);
+        if (res) {
+          this.registrar = false;
+          this.$store.dispatch("appendNewMsg", {
+            msg: "Registrado com sucesso! Agora faça login!",
+          });
+        }
       }
     },
   },
