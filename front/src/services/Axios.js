@@ -27,11 +27,11 @@ axiosInstance.interceptors.response.use(
 
         if (error.response.status == 401) {
             localStorage.removeItem("jwt");
+            store.dispatch("lgFalse");
             //window.location.href = "/admin";
         }
         store.dispatch("appendNewMsg", {
             msg: error.response.data.showMsg,
-            variant: "danger",
         });
 
         return Promise.reject(error);

@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         adminMsg: [],
-        variant: [],
+        logged: false,
         newMsg: false,
         loading: false,
     },
@@ -14,12 +14,7 @@ export default new Vuex.Store({
         addAdminMsg(state, adminMsg) {
             state.adminMsg.push(adminMsg);
         },
-        addVariant(state, variant) {
-            state.variant.push(variant);
-        },
-        restartVariant(state) {
-            Vue.set(state, "variant", []);
-        },
+
         restartAdminMsg(state) {
             Vue.set(state, "adminMsg", []);
         },
@@ -35,16 +30,22 @@ export default new Vuex.Store({
         defineLoadingFalse(state) {
             Vue.set(state, "loading", false);
         },
+        defineLoggedTrue(state) {
+            Vue.set(state, "logged", true);
+        },
+        defineLoggedFalse(state) {
+            Vue.set(state, "logged", false);
+        },
     },
     actions: {
         appendNewMsg({ commit }, obj) {
             commit("addAdminMsg", obj.msg);
-            commit("addVariant", obj.variant);
+
             commit("newMsg");
         },
         restartMsg({ commit }) {
             commit("restartAdminMsg");
-            commit("restartVariant");
+
             commit("restartNewMsg");
         },
         ldTrue({ commit }) {
@@ -53,12 +54,18 @@ export default new Vuex.Store({
         ldFalse({ commit }) {
             commit("defineLoadingFalse");
         },
+        lgFalse({ commit }) {
+            commit("defineLoggedFalse");
+        },
+        lgTrue({ commit }) {
+            commit("defineLoggedTrue");
+        },
     },
     modules: {},
     getters: {
         adminMsg: (state) => state.adminMsg,
-        variant: (state) => state.variant,
         newMsg: (state) => state.newMsg,
         loading: (state) => state.loading,
+        logged: (state) => state.logged,
     },
 });

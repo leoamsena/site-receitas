@@ -33,7 +33,8 @@
           </b-row>
         </b-col>
       </b-row>
-      <h2 class="mt-5">Todas as receitas:</h2>
+      <h2 class="mt-5" v-if="todasReceitas.length > 0">Todas as receitas:</h2>
+      <h2 v-else>Sem receitas para exibir!</h2>
       <b-row>
         <b-col>
           <b-list-group class="text-left">
