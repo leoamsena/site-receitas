@@ -60,6 +60,10 @@ export default new Vuex.Store({
         lgTrue({ commit }) {
             commit("defineLoggedTrue");
         },
+        init() {
+            if (localStorage.getItem("jwt")) this.dispatch("lgTrue");
+            else this.dispatch("lgFalse");
+        },
     },
     modules: {},
     getters: {

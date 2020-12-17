@@ -127,6 +127,9 @@ export default {
       }
     },
   },
+  beforeCreate() {
+    this.$store.dispatch("init");
+  },
 };
 </script>
 
