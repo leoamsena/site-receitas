@@ -1,0 +1,469 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0",
+        "title": "Tudo delicioso",
+        "description": "",
+        "contact": {}
+    },
+    "host": "localhost:3000",
+    "basePath": "/receitas",
+    "securityDefinitions": {},
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/random/{numberR}": {
+            "get": {
+                "description": "Usado para retornar receitas aleatórias, conforme número passado na url. Usado na página inicial do site para os 3 destaques de receitas.",
+                "summary": "Random",
+                "tags": ["Receitas"],
+                "operationId": "Random",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "numberR",
+                    "in": "path",
+                    "required": true,
+
+                    "type": "integer"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/avaliar/{id}": {
+            "post": {
+                "description": "Usado para avaliar uma receita, com notas de 1 a 5.",
+                "summary": "Avaliar",
+                "tags": ["Receitas"],
+                "operationId": "Avaliar",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AvaliarRequest"
+                        }
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/{id}": {
+            "get": {
+                "description": "Usado para retornar uma receita específica, com base no ID passado na URL.",
+                "summary": "Get one",
+                "tags": ["Receitas"],
+                "operationId": "Getone",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/{id}": {
+            "delete": {
+                "description": "Usado para excluir uma receita. O token do usuário logado deve corresponder ao usuário que criou a receita. ",
+                "summary": "Delete",
+                "tags": ["Receitas"],
+                "operationId": "Delete",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "default": "Bearer {token}",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/{id}": {
+            "patch": {
+                "description": "Usado para alterar informações de uma receita.",
+                "summary": "Update",
+                "tags": ["Receitas"],
+                "operationId": "Update",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "consumes": ["application/x-www-form-urlencoded"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "default": "Bearer {token}",
+                        "type": "string"
+                    },
+                    {
+                        "name": "titulo",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    },
+                    {
+                        "name": "ingredientes",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/": {
+            "post": {
+                "description": "Usado para postar uma nova receita.",
+                "summary": "Post",
+                "tags": ["Receitas"],
+                "operationId": "Post",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "consumes": ["multipart/form-data"],
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "default": "Bearer {token}",
+                        "type": "string"
+                    },
+                    {
+                        "name": "titulo",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    },
+                    {
+                        "name": "imagem",
+                        "in": "formData",
+                        "required": true,
+                        "type": "file",
+                        "format": "file",
+                        "description": ""
+                    },
+                    {
+                        "name": "ingredientes",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    },
+                    {
+                        "name": "preparo",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            },
+            "get": {
+                "description": "Retorna todas as receitas salvas no banco de dados.",
+                "summary": "Get all",
+                "tags": ["Receitas"],
+                "operationId": "Getall",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "default": "Bearer {token}",
+                        "type": "string"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/receitas": {
+            "get": {
+                "description": "Retorna todas as receitas do usuário logado (obtido através do token).",
+                "summary": "Receitas",
+                "tags": ["User"],
+                "operationId": "Receitas",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "Authorization",
+                    "in": "header",
+                    "required": false,
+                    "default": "Bearer {token}",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "Usado para registrar um novo usuário no sistema.",
+                "summary": "Register",
+                "tags": ["User"],
+                "operationId": "Register",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "default": "Bearer {token}",
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterRequest"
+                        }
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Usado para fazer login e obter token de usuário.",
+                "summary": "Login",
+                "tags": ["User"],
+                "operationId": "Login",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "default": "Bearer {token}",
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/LoginRequest"
+                        }
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {}
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "AvaliarRequest": {
+            "title": "AvaliarRequest",
+            "example": {
+                "nota": 1
+            },
+            "type": "object",
+            "properties": {
+                "nota": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "required": ["nota"]
+        },
+        "RegisterRequest": {
+            "title": "RegisterRequest",
+            "example": {
+                "nome": "teste",
+                "email": "aa11aa@aaa.aaa",
+                "password": "1"
+            },
+            "type": "object",
+            "properties": {
+                "nome": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "required": ["nome", "email", "password"]
+        },
+        "LoginRequest": {
+            "title": "LoginRequest",
+            "example": {
+                "email": "aaaa@aaa.aaa",
+                "password": "1"
+            },
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "required": ["email", "password"]
+        }
+    },
+    "tags": [{
+            "name": "Receitas",
+            "description": ""
+        },
+        {
+            "name": "User",
+            "description": ""
+        }
+    ]
+}
