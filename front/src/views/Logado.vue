@@ -18,7 +18,12 @@
             <b-button href="#" variant="danger" @click="apagar(receita._id)"
               >Apagar</b-button
             >
-            <b-button href="#" variant="primary">Editar</b-button>
+            <b-button
+              href="#"
+              variant="primary"
+              :to="{ name: 'editarReceita', params: { id: receita._id } }"
+              >Editar</b-button
+            >
           </div>
         </b-card></b-col
       >

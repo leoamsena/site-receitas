@@ -4,6 +4,9 @@ const path = require("path");
 const router = require("express").Router();
 const bodyParser = require("body-parser");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+
 const usersRouter = require("./routes/users");
 const receitaRouter = require("./routes/receitas");
 const cors = require("cors");
@@ -16,6 +19,8 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.use("/receitas", receitaRouter);
 app.use("/users", usersRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.use(function(err, req, res, next) {
     //console.log(err.errors);
